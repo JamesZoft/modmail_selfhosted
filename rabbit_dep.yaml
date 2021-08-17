@@ -1,0 +1,27 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: rabbitmq-modmail
+  namespace: A-NAMESPACE-HERE
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq-modmail
+          image: 'rabbitmq:3.8.14'
+          ports:
+            - containerPort: 5672
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi

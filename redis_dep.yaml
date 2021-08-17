@@ -1,0 +1,27 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: redis-modmail
+  namespace: A-NAMESPACE-HERE
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis-modmail
+          image: 'redis:5.0.12'
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi

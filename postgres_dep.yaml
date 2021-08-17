@@ -1,0 +1,49 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: postgres-modmail
+  namespace: A-NAMESPACE-HERE
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres-modmail
+          image: 'postgres:12.6'
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: trust
+            - name: POSTGRES_DB
+              value: modmail
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: postgres-persistent-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+  volumeClaimTemplates:
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
+        name: postgres-persistent-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: fast
+        volumeMode: Filesystem

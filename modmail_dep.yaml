@@ -1,0 +1,23 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: modmail-deployment
+  namespace: A-NAMESPACE-GOES-HERE
+  labels:
+    app: modmail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: modmail
+  template:
+    metadata:
+      labels:
+        app: modmail
+    spec:
+      containers:
+        - name: modmail
+          image: '<MY-PRIVATE-IMAGE-HOSTING-URL>/private/modmail:latest'
+          env:
+            - name: PYTHONUNBUFFERED
+              value: '1'

@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: rabbitmq-modmail
+  namespace: A-NAMESPACE-HERE
+spec:
+  ports:
+    - protocol: TCP
+      port: 5672
+      targetPort: 5672
+  selector:
+    app: rabbitmq
+  type: ClusterIP
